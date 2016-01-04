@@ -24,57 +24,68 @@ end
 
 class Add_Storage_Device
 
-  def initialize(device, fstype, mountpoint, user, group, mode)
-    @device, @fstype, @mountpoint, @user, @group, @mode = device, fstype, mountpoint, user, group, mode
-  end
+	def initialize(device, fstype, mountpoint, user, group, mode)
+		@device, @fstype, @mountpoint, @user, @group, @mode = device, fstype, mountpoint, user, group, mode
+	end
 
-  protected
+	protected
 
-  def attached_to_vm?
-    puts "Device to be verified for attachment = #{@device}"
-    true
-  end
+	def attached_to_vm?
+		puts "Device to be verified for attachment = #{@device}"
+		true
+	end
 
-  def is_mounted?
-    puts "Device to be verified for mount = #{@device}"
-    false
-  end
+	def is_mounted?
+		puts "Device to be verified for mount = #{@device}"
+		begin
+			if File.readlines('/proc/mounts').any?{|line| line.split(" ")[1] == "#{@device}"}
+				puts "Device #{@device} is already mounted "
+				true
+			else
+				puts " Device #{@device} is not mounted "
+				false
+			end
+		rescue Exception => e
+			puts e.message
+      true
+		end
+	end
 
-  def fs_exists?
-    puts "Device to be verified for fs_exists = #{@device} for FS type #{@fstype}"
-    false
-  end
+	def fs_exists?
+		puts "Device to be verified for fs_exists = #{@device} for FS type #{@fstype}"
+		false
+	end
 
-  def create_mountpoint?
-    puts "mountpoint to be created on #{@mountpoint}"
-    true
-  end
+	def create_mountpoint?
+		puts "mountpoint to be created on #{@mountpoint}"
+		true
+	end
 
-  def create_fs?
-    puts "File system #{@fstype} to be created on #{@device}"
-    true
-  end
+	def create_fs?
+		puts "File system #{@fstype} to be created on #{@device}"
+		true
+	end
 
-  def mount_fs?
-    puts "Device #{@device} to be mounted on #{@mountpoint}"
-    true
-  end
+	def mount_fs?
+		puts "Device #{@device} to be mounted on #{@mountpoint}"
+		true
+	end
 
-  public
+	public
 
-  def verify_storage_disk?
-    if self.attached_to_vm? && !self.is_mounted? && !self.fs_exists?
-          if self.create_fs? && self.create_mountpoint? && self.mount_fs?
-                true
-          end
-    end
-  end
+	def verify_storage_disk?
+		if self.attached_to_vm? && !self.is_mounted? && !self.fs_exists?
+			if self.create_fs? && self.create_mountpoint? && self.mount_fs?
+				true
+			end
+		end
+	end
 
 end
 
 app1_fs = Add_Storage_Device.new("/dev/sdc", "ext4", "/app1", "app1", "app1", "755")
 if app1_fs.verify_storage_disk?
-  puts " SUCCESS - Device attached "
+	puts " SUCCESS - Device attached "
 else
-  puts " ERROR - Failed to attach the device"
+	puts " ERROR - Failed to attach the device"
 end
