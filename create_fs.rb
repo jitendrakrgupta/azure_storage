@@ -88,7 +88,7 @@ class Add_Storage_Device
 
 end
 
-app1_fs = Add_Storage_Device.new("/dev/sdb", "ext4", "/app1", "app1", "app1", "755")
+app1_fs = Add_Storage_Device.new("/dev/sdb1", "ext4", "/app1", "app1", "app1", "755")
 if app1_fs.verify_storage_disk?
 	puts " SUCCESS - Device attached "
 else
