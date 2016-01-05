@@ -38,7 +38,7 @@ class Add_Storage_Device
 	def is_mounted?
 		puts "Device to be verified for mount = #{@device}"
 		begin
-			if File.readlines('/proc/mounts').any? {|line| line.split(" ")[0] == "#{@device}"}
+			if File.readlines('/proc/mounts').any? {|line| line.split(" ")[0].downcase.include? "#{@device}".downcase}
 				puts "Device #{@device} is already mounted "
 				true
 			else
