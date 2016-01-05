@@ -55,7 +55,7 @@ class Add_Storage_Device
 		puts "Checking if filesystem exists on #{@device}... "
 		device_fs = `sudo blkid -o value -s TYPE #{@device}`
 		if device_fs.chomp == "ext4"
-			puts "Device #{@device} already has filesystem #{device_fs}...Quiting"
+			puts "Device #{@device} already has filesystem #{device_fs}.chomp ...Quiting"
 			true
 		else
 			puts "Device #{@device} has no filesystem."
