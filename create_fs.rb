@@ -38,7 +38,7 @@ class Add_Storage_Device
 	def is_mounted?
 		puts "Device to be verified for mount = #{@device}"
 		begin
-			if File.readlines('/proc/mounts').any?{|line| line.split(" ")[1] == "#{@device}"}
+			if File.readlines('/proc/mounts').any? {|line| line.split(" ")[1] == "#{@device}"}
 				puts "Device #{@device} is already mounted "
 				true
 			else
@@ -46,14 +46,19 @@ class Add_Storage_Device
 				false
 			end
 		rescue Exception => e
-			puts e.message
+			puts "ERROR - #{e.message}"
       true
 		end
 	end
 
 	def fs_exists?
 		puts "Device to be verified for fs_exists = #{@device} for FS type #{@fstype}"
-		false
+		if system('sudo blkid -o value -s TYPE #{@device}') == "ext4"
+			puts "Device #{@device} already has FS type ext4...Quiting"
+			true
+		else
+			false
+		end
 	end
 
 	def create_mountpoint?
@@ -83,7 +88,7 @@ class Add_Storage_Device
 
 end
 
-app1_fs = Add_Storage_Device.new("/dev/sdc", "ext4", "/app1", "app1", "app1", "755")
+app1_fs = Add_Storage_Device.new("/dev/sdb", "ext4", "/app1", "app1", "app1", "755")
 if app1_fs.verify_storage_disk?
 	puts " SUCCESS - Device attached "
 else
