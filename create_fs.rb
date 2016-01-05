@@ -52,9 +52,9 @@ class Add_Storage_Device
 	end
 
 	def fs_exists?
-		puts "Device to be verified for fs_exists = #{@device} for FS type #{@fstype}"
-		if system('sudo blkid -o value -s TYPE #{@device}') == "ext4"
-			puts "Device #{@device} already has FS type ext4...Quiting"
+		puts "Checking if filesystem exists = #{@device} for FS type #{@fstype}"
+		if system('sudo blkid -o value -s TYPE #{@device}')
+			puts "Device #{@device} already has filesystem ...Quiting"
 			true
 		else
 			false
