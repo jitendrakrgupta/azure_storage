@@ -22,6 +22,8 @@ end
 
 =end
 
+require 'Dir'
+
 class Add_Storage_Device
 
 	def initialize(device, fstype, mountpoint, user, group, mode)
@@ -64,8 +66,20 @@ class Add_Storage_Device
 	end
 
 	def create_mountpoint?
-		puts "mountpoint to be created on #{@mountpoint}"
-		true
+		if Dir.exists?("#{@mountpoint}")
+			puts "mountpoint #{@mountpoint} already exists"
+			false
+		else
+			begin
+				if !Dir.mkdir("#{@mountpoint}")
+					puts "mountpoint #{@mountpoint} created successfully"
+					true
+				end
+			rescue Exception => e
+					puts "ERROR - mountpoint #{@mountpoint} creation failed - #{e.message}"
+					false
+			end
+		end
 	end
 
 	def create_fs?
