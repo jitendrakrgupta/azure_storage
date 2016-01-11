@@ -22,7 +22,7 @@ end
 
 =end
 
-require 'Dir'
+require 'dir'
 
 class Add_Storage_Device
 
@@ -71,7 +71,7 @@ class Add_Storage_Device
 			false
 		else
 			begin
-				if !Dir.mkdir("#{@mountpoint}")
+				if Dir.mkdir("#{@mountpoint}")
 					puts "mountpoint #{@mountpoint} created successfully"
 					true
 				end
