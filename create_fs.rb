@@ -55,9 +55,7 @@ class Add_Storage_Device
 
 	def fs_exists?
 		puts "Checking if filesystem exists on #{@device}... "
-		#device_fs = `sudo blkid -o value -s TYPE #{@device}`.chomp
 		device_fs = `sudo file -s #{@device}|awk '{ print $2}'`.chomp
-		#if device_fs == "ext4"
 		if device_fs != "data"
 			puts "ERROR - Device #{@device} already has filesystem or does not exist ...Quiting"
 			true
