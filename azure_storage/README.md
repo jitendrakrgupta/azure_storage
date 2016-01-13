@@ -1,61 +1,45 @@
 azure_storage Cookbook
 ======================
-TODO: Enter the cookbook description here.
-
-e.g.
-This cookbook makes your favorite breakfast sandwich.
+This Cookbook does the following on the local VM :-
+  1. Verifies that the storage device provided is indeed present on the VM.
+  2. The device is neither mounted nor in use by the VM.
+  3. Creates filesystem(ext4) by default on the new device.
+  4. Mounts it on the specified mountpoint.
 
 Requirements
 ------------
-TODO: List your cookbook requirements. Be sure to include any requirements this cookbook has on platforms, libraries, other cookbooks, packages, operating systems, etc.
+1. This is for a CentOS VM.
+2. The VM should be up and running.
+3. The new storage device is already created in Azure Storage and is attached to the VM.
 
-e.g.
 #### packages
-- `toaster` - azure_storage needs toaster to brown your bagel.
+- `Dir` - azure_storage needs this ruby gem.
 
 Attributes
 ----------
-TODO: List your cookbook attributes here.
-
-e.g.
-#### azure_storage::default
-<table>
-  <tr>
-    <th>Key</th>
-    <th>Type</th>
-    <th>Description</th>
-    <th>Default</th>
-  </tr>
-  <tr>
-    <td><tt>['azure_storage']['bacon']</tt></td>
-    <td>Boolean</td>
-    <td>whether to include bacon</td>
-    <td><tt>true</tt></td>
-  </tr>
-</table>
+- "device": eg. /dev/sdc
+- "fstype": eg. "ext4"
+- "mountpoint": eg. "/mnt",
+- "user": eg. "root",
+- "group": eg. "root",
+- "mode": eg. "777"
 
 Usage
 -----
 #### azure_storage::default
-TODO: Write usage instructions for each cookbook.
-
-e.g.
-Just include `azure_storage` in your node's `run_list`:
-
-```json
-{
-  "name":"my_node",
-  "run_list": [
-    "recipe[azure_storage]"
-  ]
-}
+```ruby
+azure_storage_blob "disk1" do
+  "device": "/dev/sdc",
+  "fstype": "ext4",
+  "mountpoint": "/data1",
+  "user": "root",
+  "group": "root",
+  "mode": "777"
+end
 ```
 
 Contributing
 ------------
-TODO: (optional) If this is a public cookbook, detail the process for contributing. If this is a private cookbook, remove this section.
-
-e.g.
 1. Fork the repository on Github
 2. Create a named feature branch (like `add_component_x`)
 3. Write your change
@@ -65,4 +49,4 @@ e.g.
 
 License and Authors
 -------------------
-Authors: TODO: List authors
+Authors: WalmartLabs
