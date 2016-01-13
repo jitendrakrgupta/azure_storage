@@ -59,7 +59,7 @@ class Add_Storage_Device
 		device_fs = `sudo file -s #{@device}|awk '{ print $2}'`.chomp
 		#if device_fs == "ext4"
 		if device_fs != "data"
-			puts "ERROR - Device #{@device} already has filesystem ...Quiting"
+			puts "ERROR - Device #{@device} already has filesystem or does not exist ...Quiting"
 			true
 		else
 			puts "Device #{@device} has no filesystem."
@@ -69,7 +69,7 @@ class Add_Storage_Device
 
 	def create_mountpoint?
 		if Dir.exists?("#{@mountpoint}")
-			puts "mountpoint #{@mountpoint} already exists"
+			puts "ERROR - mountpoint #{@mountpoint} already exists"
 			false
 		else
 			begin
@@ -100,7 +100,7 @@ class Add_Storage_Device
 
 	def mount_fs?
 		puts "Device #{@device} to be mounted on #{@mountpoint}"
-		mount_stdout = `sudo mount #{@mountpoint} #{@device}`
+		mount_stdout = `sudo mount #{@device} #{@mountpoint}`
 		if $?.exitstatus == 0
 			puts "Device #{@device} mounted successfully on #{@mountpoint}"
 			true
