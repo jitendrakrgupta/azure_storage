@@ -87,9 +87,15 @@ class Add_Storage_Device
 	def create_fs?
 		puts "File system #{@fstype} to be created on #{@device}"
 		mkfs_stdout = `sudo mkfs -t #{@fstype} #{@device}`
-		puts $?.exitstatus
-		puts mkfs_stdout
-		true
+		if $?.exitstatus == 0
+			puts "File system #{@fstype} created successfully on #{@device}"
+			puts mkfs_stdout
+			true
+		else
+			puts "ERROR - File system #{@fstype} creation failed on #{@device}"
+			puts mkfs_stdout
+			false
+		end
 	end
 
 	def mount_fs?
