@@ -100,7 +100,14 @@ class Add_Storage_Device
 
 	def mount_fs?
 		puts "Device #{@device} to be mounted on #{@mountpoint}"
-		true
+		mount_stdout = `sudo mount #{@mountpoint} #{@device}`
+		if $?.exitstatus == 0
+			puts "Device #{@device} mounted successfully on #{@mountpoint}"
+			true
+		else
+			puts "ERROR - Device #{@device} failed to be mounted on #{@mountpoint}"
+			puts mount_stdout
+		end
 	end
 
 	public
