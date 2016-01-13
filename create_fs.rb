@@ -49,7 +49,7 @@ class Add_Storage_Device
 			end
 		rescue Exception => e
 			puts "ERROR - #{e.message}"
-      true
+			true
 		end
 	end
 
@@ -78,8 +78,8 @@ class Add_Storage_Device
 					true
 				end
 			rescue Exception => e
-					puts "ERROR - mountpoint #{@mountpoint} creation failed - #{e.message}"
-					false
+				puts "ERROR - mountpoint #{@mountpoint} creation failed - #{e.message}"
+				false
 			end
 		end
 	end
@@ -122,6 +122,7 @@ class Add_Storage_Device
 
 end
 
+#Add_Storage_Device(device, fstype, mountpoint, user, group, mode)
 app1_fs = Add_Storage_Device.new("/dev/sdc1", "ext4", "/app1", "app1", "app1", "755")
 if app1_fs.verify_storage_disk?
 	puts " SUCCESS - Device attached "
