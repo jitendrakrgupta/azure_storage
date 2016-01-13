@@ -59,7 +59,7 @@ class Add_Storage_Device
 		device_fs = `sudo file -s #{@device}|awk '{ print $2}'`.chomp
 		#if device_fs == "ext4"
 		if device_fs != "data"
-			puts "Device #{@device} already has filesystem ...Quiting"
+			puts "ERROR - Device #{@device} already has filesystem ...Quiting"
 			true
 		else
 			puts "Device #{@device} has no filesystem."
@@ -86,6 +86,9 @@ class Add_Storage_Device
 
 	def create_fs?
 		puts "File system #{@fstype} to be created on #{@device}"
+		mkfs_stdout = `sudo mkfs -t #{@fstype} #{@device}`
+		puts $?.existstatus
+		puts mkfs_stdout
 		true
 	end
 
@@ -106,7 +109,7 @@ class Add_Storage_Device
 
 end
 
-app1_fs = Add_Storage_Device.new("/dev/sdc", "ext4", "/app1", "app1", "app1", "755")
+app1_fs = Add_Storage_Device.new("/dev/sdc1", "ext4", "/app1", "app1", "app1", "755")
 if app1_fs.verify_storage_disk?
 	puts " SUCCESS - Device attached "
 else
