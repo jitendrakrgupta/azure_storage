@@ -34,7 +34,14 @@ class Add_Storage_Device
 
 	def attached_to_vm?
 		puts "Device to be verified for attachment = #{@device}"
-		true
+	  device_attach_status = `sudo lsblk #{@device}`
+	  if $?.exitstatus == 0
+	    puts "Device #{@device} found on this VM"
+	    true
+	  else
+	    puts "ERROR - Device #{@device} not found on this VM"
+	    false
+	  end
 	end
 
 	def is_mounted?
