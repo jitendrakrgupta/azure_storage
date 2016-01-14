@@ -14,6 +14,7 @@ end
 action :attach_volume do
   if attached_to_vm? && !is_mounted? && !fs_exists?
     if create_fs? && create_mountpoint? && mount_fs?
+      add_fstab_entry
       true
     end
   end
@@ -99,5 +100,13 @@ def mount_fs?
   else
     puts "ERROR - Device #{@device} failed to be mounted on #{@mountpoint}"
     puts mount_stdout
+  end
+end
+
+def add_fstab_entry
+  mount "#{@mountpoint}" do
+    device "#{@device}"
+    fstype "#{@fstype}"
+    action :enable
   end
 end
