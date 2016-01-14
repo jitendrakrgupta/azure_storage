@@ -6,8 +6,6 @@
 #
 #
 
-=begin
-
 azure_storage_blob "disk1" do
   "device": "/dev/sdc",
   "fstype": "ext4",
@@ -17,5 +15,3 @@ azure_storage_blob "disk1" do
   "mode": "777"
   "actions": attach_volume
 end
-
-=end
