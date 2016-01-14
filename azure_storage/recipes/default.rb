@@ -13,5 +13,5 @@ azure_storage_blob "disk1" do
   user 'root'
   group 'root'
   mode '777'
-  action attach_volume
+  action :attach_volume
 end

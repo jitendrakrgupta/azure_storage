@@ -20,7 +20,7 @@ action :attach_volume do
 end
 
 def attached_to_vm?
-  puts "Device to be verified for attachment = #{@device}"
+  puts "\nDevice to be verified for attachment = #{@device}"
   device_attach_status = `sudo lsblk #{@device}`
   if $?.exitstatus == 0
     puts "Device #{@device} found on this VM"
@@ -34,7 +34,7 @@ end
 def is_mounted?
   puts "Device to be verified for mount = #{@device}"
   begin
-    if File.readlines('/proc/mounts').any? {|line| line.split(" ")[0].downcase.include? "#{@device}".downcase}
+    if ::File.readlines('/proc/mounts').any? {|line| line.split(" ")[0].downcase.include? "#{@device}".downcase}
       puts "Device #{@device} is already mounted "
       true
     else
