@@ -104,9 +104,9 @@ def mount_fs?
 end
 
 def add_fstab_entry
-  mount "#{@mountpoint}" do
-    device "#{@device}"
-    fstype "#{@fstype}"
+  mount "#{new_resource.mountpoint}" do
+    device "#{new_resource.device}"
+    fstype "#{new_resource.fstype}"
     action :enable
   end
 end
