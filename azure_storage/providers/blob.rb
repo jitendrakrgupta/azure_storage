@@ -13,7 +13,7 @@ end
 
 action :attach_volume do
   if attached_to_vm? && !is_mounted? && !fs_exists?
-    if create_fs? && create_mountpoint? && mount_fs?
+    if create_partition? && create_fs? && create_mountpoint? && mount_fs? 
       add_fstab_entry
       true
     end
@@ -74,6 +74,20 @@ def create_mountpoint?
       puts "ERROR - mountpoint #{@mountpoint} creation failed - #{e.message}"
       false
     end
+  end
+end
+
+def create_partition?
+  puts "1 Partition to be created on #{@device}"
+  fdisk_stdout = `sudo echo -e "o\nn\np\n1\n\n\nw" | fdisk /dev/sdc`
+  if $?.exitstatus == 0
+    puts "Partition created successfully on #{@device}"
+    puts fdisk_stdout
+    true
+  else
+    puts "ERROR - Partition created failed on #{@device}"
+    puts fdisk_stdout
+    false
   end
 end
 
