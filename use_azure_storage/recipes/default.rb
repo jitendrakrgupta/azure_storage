@@ -7,8 +7,6 @@
 # All rights reserved - Do Not Redistribute
 #
 
-include_recipe "azure_storage"
-
 azure_storage_blob "disk1" do
   device '/dev/sdc'
   fstype 'ext4'
