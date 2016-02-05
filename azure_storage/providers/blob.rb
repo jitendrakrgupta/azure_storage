@@ -13,7 +13,7 @@ end
 
 action :attach_volume do
   if attached_to_vm? && !is_mounted? && !fs_exists?
-    if create_partition? && create_fs? && create_mountpoint? && mount_fs? 
+    if create_partition? && create_fs? && create_mountpoint? && mount_fs?
       add_fstab_entry
       true
     end
@@ -79,7 +79,7 @@ end
 
 def create_partition?
   puts "1 Partition to be created on #{@device}"
-  fdisk_stdout = `sudo echo -e "o\nn\np\n1\n\n\nw" | fdisk /dev/sdc`
+  fdisk_stdout = `sudo echo -e "o\nn\np\n1\n\n\nw" | fdisk #{@device}`
   if $?.exitstatus == 0
     puts "Partition created successfully on #{@device}"
     puts fdisk_stdout
